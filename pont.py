@@ -60,6 +60,12 @@ def keystream_step_1(deck):
     return move_card_down(deck, A)
 
 
+def keystream_step_2(deck):
+    """Performs step 2 of the keystream operation. Finds the B joker and moves
+    it two cards down. Returns modified deck."""
+    return move_card_down(deck, B, 2)
+
+
 def main():
     key = range(1, DECK_SIZE+1) # initial state of the deck
     deck = key

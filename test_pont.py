@@ -7,6 +7,7 @@ from pont import insert_spaces
 from pont import split_into_fives
 from pont import move_card_down
 from pont import keystream_step_1
+from pont import keystream_step_2
 from pont import A, B
 
 
@@ -18,6 +19,16 @@ class TestKeyStreamStep1(unittest.TestCase):
         in_deck = [1, 2, 3, A]
         out_deck = [1, A, 2, 3]
         self.assertEqual(keystream_step_1(in_deck), out_deck)
+
+
+class TestKeyStreamStep2(unittest.TestCase):
+    def test_basic_shit(self):
+        in_deck = [B, 1, 2, 3]
+        out_deck = [1, 2, B, 3]
+        self.assertEqual(keystream_step_2(in_deck), out_deck)
+        in_deck = [1, 2, 3, B]
+        out_deck = [1, 2, B, 3]
+        self.assertEqual(keystream_step_2(in_deck), out_deck)
 
 
 class TestMoveCardDown(unittest.TestCase):
