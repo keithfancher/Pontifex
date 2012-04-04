@@ -4,6 +4,19 @@
 import re
 
 
+# This will never change, obviously
+DECK_SIZE = 54
+
+# A and B jokers
+A = 53
+B = 54
+
+
+def shift_deck_right(deck):
+    """Circular shift of the deck, moving card on bottom back around to top"""
+    return [deck[-1]] + deck[0:-1]
+
+
 def insert_spaces(instring, every=5):
     """Insert spaces every "every" characters, 5 by default"""
     outstring = ""
@@ -28,7 +41,29 @@ def split_into_fives(instring):
     return outstring.upper() # upper case
 
 
+def move_card_down(deck, card, n=1):
+    """Moves the specifed card down n cards in the deck, looping around properly
+    as specified by the algorithm"""
+    out_deck = deck
+    for i in xrange(n):
+        index = out_deck.index(card)
+        if index == len(deck) - 1: # it's on the bottom, so effectively on top
+            out_deck = shift_deck_right(out_deck)
+            index = 0 # once it's rotated...
+        out_deck[index], out_deck[index+1] = out_deck[index+1], out_deck[index]
+    return out_deck
+
+
+def keystream_step_1(deck):
+    """Performs step 1 of the keystream operation. Finds the A joker and moves
+    it one card down. Returns modified deck."""
+    return move_card_down(deck, A)
+
+
 def main():
+    key = range(1, DECK_SIZE+1) # initial state of the deck
+    deck = key
+
     print "hey"
 
 
