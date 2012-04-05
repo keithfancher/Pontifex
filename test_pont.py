@@ -17,6 +17,8 @@ class TestKeyStreamStep1(unittest.TestCase):
         in_deck = [A, 1, 2, 3]
         out_deck = [1, A, 2, 3]
         self.assertEqual(keystream_step_1(in_deck), out_deck)
+
+    def test_looping_deck(self):
         in_deck = [1, 2, 3, A]
         out_deck = [1, A, 2, 3]
         self.assertEqual(keystream_step_1(in_deck), out_deck)
@@ -27,6 +29,8 @@ class TestKeyStreamStep2(unittest.TestCase):
         in_deck = [B, 1, 2, 3]
         out_deck = [1, 2, B, 3]
         self.assertEqual(keystream_step_2(in_deck), out_deck)
+
+    def test_looping_deck(self):
         in_deck = [1, 2, 3, B]
         out_deck = [1, 2, B, 3]
         self.assertEqual(keystream_step_2(in_deck), out_deck)
@@ -37,12 +41,18 @@ class TestKeyStreamStep3(unittest.TestCase):
         in_deck = [1, 2, A, 3, 4, B, 5, 6]
         out_deck = [5, 6, A, 3, 4, B, 1, 2]
         self.assertEqual(keystream_step_3(in_deck), out_deck)
+
+    def test_swapped_jokers(self):
         in_deck = [1, 2, B, 3, 4, A, 5, 6]
         out_deck = [5, 6, B, 3, 4, A, 1, 2]
         self.assertEqual(keystream_step_3(in_deck), out_deck)
+
+    def test_empty_side(self):
         in_deck = [A, 2, 3, 4, B, 5, 6]
         out_deck = [5, 6, A, 2, 3, 4, B]
         self.assertEqual(keystream_step_3(in_deck), out_deck)
+
+    def test_jokers_at_ends(self):
         in_deck = [A, 2, 3, 4, B]
         out_deck = [A, 2, 3, 4, B]
         self.assertEqual(keystream_step_3(in_deck), out_deck)
