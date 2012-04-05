@@ -10,6 +10,7 @@ from pont import keystream_step_1
 from pont import keystream_step_2
 from pont import keystream_step_3
 from pont import keystream_step_4
+from pont import get_keystream_num
 from pont import A, B
 
 
@@ -74,6 +75,13 @@ class TestKeyStreamStep4(unittest.TestCase):
         in_deck = [1, 2, 3, 4, B]
         out_deck = [1, 2, 3, 4, B]
         self.assertEqual(keystream_step_4(in_deck), out_deck)
+
+
+class GetKeystreamNum(unittest.TestCase):
+    def test_basic_shit(self):
+        in_deck = [1, 2, 5, 4, 6, 3]
+        result = 2
+        self.assertEqual(get_keystream_num(in_deck), result)
 
 
 class TestMoveCardDown(unittest.TestCase):

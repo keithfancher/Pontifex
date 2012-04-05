@@ -89,6 +89,14 @@ def keystream_step_4(deck):
     return deck[count:-1] + deck[0:count] + [deck[-1]]
 
 
+def get_keystream_num(deck):
+    """Steps 5 and 6, essentially. Treat top card as a number, count down that
+    number into the deck. The one AFTER is the output card. Convert to a
+    number, that's your first keystream num. If it's a joker, start again from
+    step one."""
+    return deck[deck[0]]
+
+
 def main():
     key = range(1, DECK_SIZE+1) # initial state of the deck
     deck = key
