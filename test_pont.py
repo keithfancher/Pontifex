@@ -8,6 +8,7 @@ from pont import split_into_fives
 from pont import move_card_down
 from pont import keystream_step_1
 from pont import keystream_step_2
+from pont import keystream_step_3
 from pont import A, B
 
 
@@ -29,6 +30,22 @@ class TestKeyStreamStep2(unittest.TestCase):
         in_deck = [1, 2, 3, B]
         out_deck = [1, 2, B, 3]
         self.assertEqual(keystream_step_2(in_deck), out_deck)
+
+
+class TestKeyStreamStep3(unittest.TestCase):
+    def test_basic_shit(self):
+        in_deck = [1, 2, A, 3, 4, B, 5, 6]
+        out_deck = [5, 6, A, 3, 4, B, 1, 2]
+        self.assertEqual(keystream_step_3(in_deck), out_deck)
+        in_deck = [1, 2, B, 3, 4, A, 5, 6]
+        out_deck = [5, 6, B, 3, 4, A, 1, 2]
+        self.assertEqual(keystream_step_3(in_deck), out_deck)
+        in_deck = [A, 2, 3, 4, B, 5, 6]
+        out_deck = [5, 6, A, 2, 3, 4, B]
+        self.assertEqual(keystream_step_3(in_deck), out_deck)
+        in_deck = [A, 2, 3, 4, B]
+        out_deck = [A, 2, 3, 4, B]
+        self.assertEqual(keystream_step_3(in_deck), out_deck)
 
 
 class TestMoveCardDown(unittest.TestCase):

@@ -66,6 +66,19 @@ def keystream_step_2(deck):
     return move_card_down(deck, B, 2)
 
 
+def keystream_step_3(deck):
+    """Step 3. Triple cut. Swap the cards above the first joker with the cards
+    below the second joker."""
+    # whether it's A or B is irrelevant here, you just need "top" and "bottom"
+    if deck.index(A) < deck.index(B):
+        top = deck.index(A)
+        bot = deck.index(B)
+    else:
+        top = deck.index(B)
+        bot = deck.index(A)
+    return deck[bot+1:] + deck[top:bot+1] + deck[0:top]
+
+
 def main():
     key = range(1, DECK_SIZE+1) # initial state of the deck
     deck = key
