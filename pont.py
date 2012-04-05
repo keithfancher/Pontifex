@@ -90,11 +90,32 @@ def keystream_step_4(deck):
 
 
 def get_keystream_num(deck):
-    """Steps 5 and 6, essentially. Treat top card as a number, count down that
-    number into the deck. The one AFTER is the output card. Convert to a
-    number, that's your first keystream num. If it's a joker, start again from
-    step one."""
-    return deck[deck[0]]
+    """Gets a single keystream num given a deck that has undergone steps 1
+    through 4. It's steps 5 and 6, essentially. Treat top card as a number,
+    count down that number into the deck. The one AFTER is the output card.
+    Convert to a number, that's your keystream num. If it's a joker, start
+    again from step one. :("""
+    count = deck[0]
+    if count == A or count == B:
+        count = 53 # either joker is 53 here
+    return deck[count]
+
+
+def generate_keystream(deck, length):
+    """Generates a keystream given a starting deck and length of stream"""
+    keystream = [] # a list?
+    new_deck = deck
+    for i in xrange(length):
+        while True: # could really use a do/while loop, Python!
+            new_deck = keystream_step_1(new_deck)
+            new_deck = keystream_step_2(new_deck)
+            new_deck = keystream_step_3(new_deck)
+            new_deck = keystream_step_4(new_deck)
+            key_num = get_keystream_num(new_deck)
+            if not (key_num == A or key_num == B): # it's not a joker, break
+                break
+        keystream.append(key_num)
+    return keystream
 
 
 def main():

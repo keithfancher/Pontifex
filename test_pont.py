@@ -11,6 +11,7 @@ from pont import keystream_step_2
 from pont import keystream_step_3
 from pont import keystream_step_4
 from pont import get_keystream_num
+from pont import generate_keystream
 from pont import A, B
 
 
@@ -77,11 +78,18 @@ class TestKeyStreamStep4(unittest.TestCase):
         self.assertEqual(keystream_step_4(in_deck), out_deck)
 
 
-class GetKeystreamNum(unittest.TestCase):
+class TestGetKeystreamNum(unittest.TestCase):
     def test_basic_shit(self):
         in_deck = [1, 2, 5, 4, 6, 3]
         result = 2
         self.assertEqual(get_keystream_num(in_deck), result)
+
+
+class TestGenerateKeystream(unittest.TestCase):
+    def test_basic_shit(self):
+        in_deck = range(1, 55)
+        keystream = [4, 49, 10, 24, 8, 51, 44, 6, 4, 33]
+        self.assertEqual(generate_keystream(in_deck, 10), keystream)
 
 
 class TestMoveCardDown(unittest.TestCase):
