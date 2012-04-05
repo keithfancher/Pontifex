@@ -79,6 +79,16 @@ def keystream_step_3(deck):
     return deck[bot+1:] + deck[top:bot+1] + deck[0:top]
 
 
+def keystream_step_4(deck):
+    """Step 4. Count cut. Count down the number of the bottom card, then cut
+    after that card, leaving bottom card in place."""
+    # either joker on the bottom leaves deck unchanged
+    if deck[-1] == A or deck[-1] == B:
+        return deck
+    count = deck[-1] # count down number of bottom card
+    return deck[count:-1] + deck[0:count] + [deck[-1]]
+
+
 def main():
     key = range(1, DECK_SIZE+1) # initial state of the deck
     deck = key

@@ -9,6 +9,7 @@ from pont import move_card_down
 from pont import keystream_step_1
 from pont import keystream_step_2
 from pont import keystream_step_3
+from pont import keystream_step_4
 from pont import A, B
 
 
@@ -58,6 +59,23 @@ class TestKeyStreamStep3(unittest.TestCase):
         self.assertEqual(keystream_step_3(in_deck), out_deck)
 
 
+class TestKeyStreamStep4(unittest.TestCase):
+    def test_basic_shit(self):
+        in_deck = [1, 2, 5, 4, 6, 3]
+        out_deck = [4, 6, 1, 2, 5, 3]
+        self.assertEqual(keystream_step_4(in_deck), out_deck)
+        in_deck = [3, 2, 5, 4, 6, 1]
+        out_deck = [2, 5, 4, 6, 3, 1]
+
+    def test_jokers_on_end(self):
+        in_deck = [1, 2, 3, 4, A]
+        out_deck = [1, 2, 3, 4, A]
+        self.assertEqual(keystream_step_4(in_deck), out_deck)
+        in_deck = [1, 2, 3, 4, B]
+        out_deck = [1, 2, 3, 4, B]
+        self.assertEqual(keystream_step_4(in_deck), out_deck)
+
+
 class TestMoveCardDown(unittest.TestCase):
     # tuples in the form (indeck, outdeck, n)
     test_decks = [ ( [1, 2, 3, 4, 5], [2, 1, 3, 4, 5], 1),
@@ -78,7 +96,6 @@ class TestInsertSpaces(unittest.TestCase):
                     ("abcdeabcdeabcde", "abcde abcde abcde")]
 
     def test_basic_shit(self):
-        """a bunch of basic strings should get transformed correctly!"""
         for instring, outstring in self.test_strings:
             self.assertEqual(insert_spaces(instring), outstring)
 
@@ -91,7 +108,6 @@ class TestSplitIntoFives(unittest.TestCase):
                     ("welcome home", "WELCO MEHOM EXXXX")]
 
     def test_basic_shit(self):
-        """split into groups of five and capitalize, man"""
         for instring, outstring in self.test_strings:
             self.assertEqual(split_into_fives(instring), outstring)
 
