@@ -124,6 +124,24 @@ def generate_keystream(deck, length):
     return keystream
 
 
+def fake_mod(num):
+    """The solitaire algorithm uses a not-quite-mod mod function..."""
+    if num > 26:
+        return num - 26
+    else:
+        return num
+
+
+def encrypt(plaintext, keystream):
+    """Encrypts the plaintext given a keystream (as a list)"""
+    if len(plaintext) != len(keystream):
+        return None # not sure how to handle this gracefully
+    text = map(lambda x: ord(x) - 64, list(plaintext)) # convert to list of nums
+    text = [fake_mod((text[i] + keystream[i])) for i in range(len(text))]
+    text = map(lambda x: chr(x + 64), text) # back to chars
+    return "".join(text)
+
+
 def main():
     key = range(1, DECK_SIZE+1) # initial state of the deck
     deck = key

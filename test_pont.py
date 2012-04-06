@@ -13,6 +13,7 @@ from pont import keystream_step_3
 from pont import keystream_step_4
 from pont import get_keystream_num
 from pont import generate_keystream
+from pont import encrypt
 from pont import A, B
 
 
@@ -91,6 +92,18 @@ class TestGenerateKeystream(unittest.TestCase):
         in_deck = range(1, 55)
         keystream = [4, 49, 10, 24, 8, 51, 44, 6, 4, 33]
         self.assertEqual(generate_keystream(in_deck, 10), keystream)
+
+
+class TestEncrypt(unittest.TestCase):
+    def test_basic_shit(self):
+        keystream = [4, 49, 10, 24, 8, 51, 44, 6, 4, 33]
+        plaintext = "AAAAAAAAAA"
+        ciphertext = "EXKYIZSGEH"
+        self.assertEqual(encrypt(plaintext, keystream), ciphertext)
+        keystream = [11, 4, 23, 21, 16, 15, 14, 15, 23, 20]
+        plaintext = "DONOTUSEPC"
+        ciphertext = "OSKJJJGTMW"
+        self.assertEqual(encrypt(plaintext, keystream), ciphertext)
 
 
 class TestMoveCardDown(unittest.TestCase):
