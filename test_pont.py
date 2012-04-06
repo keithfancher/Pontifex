@@ -4,6 +4,7 @@
 import unittest
 
 from pont import insert_spaces
+from pont import clean_string
 from pont import split_into_fives
 from pont import move_card_down
 from pont import keystream_step_1
@@ -102,6 +103,16 @@ class TestMoveCardDown(unittest.TestCase):
     def test_basic_shit(self):
         for indeck, outdeck, n in self.test_decks:
             self.assertEqual(move_card_down(indeck, 1, n), outdeck)
+
+
+class TestCleanString(unittest.TestCase):
+    # in the form (instring, outstring)
+    test_strings = [("hello 1 `';!!!    man,", "hello1man"),
+                    ("\t\t!!!!!!    b 4,,;'][()+lls", "b4lls")]
+
+    def test_basic_shit(self):
+        for instring, outstring in self.test_strings:
+            self.assertEqual(clean_string(instring), outstring)
 
 
 class TestInsertSpaces(unittest.TestCase):

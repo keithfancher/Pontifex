@@ -25,6 +25,12 @@ def insert_spaces(instring, every=5):
     return outstring.strip() # gotta strip the last extraneous space
 
 
+def clean_string(instring):
+    """Removes all but alphanumeric characters"""
+    filtered = filter(lambda x: x.isalnum(), list(instring))
+    return "".join(filtered)
+
+
 def split_into_fives(instring):
     """Split given string into groups of five characters, separated by spaces
     and capitalized"""
