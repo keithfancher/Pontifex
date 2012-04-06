@@ -1,12 +1,6 @@
 #!/usr/bin/env python
 
 
-import re
-
-
-# This will never change, obviously
-DECK_SIZE = 54
-
 # A and B jokers
 A = 53
 B = 54
@@ -34,7 +28,7 @@ def clean_string(instring):
 def split_into_fives(instring):
     """Split given string into groups of five characters, separated by spaces
     and capitalized"""
-    outstring = re.sub(r'\s', '', instring) # strip all whitespace
+    outstring = clean_string(instring)
 
     # add Xs so len is multiple of 5
     if len(outstring) % 5 != 0:
@@ -100,7 +94,8 @@ def get_keystream_num(deck):
     through 4. It's steps 5 and 6, essentially. Treat top card as a number,
     count down that number into the deck. The one AFTER is the output card.
     Convert to a number, that's your keystream num. If it's a joker, start
-    again from step one. :("""
+    again from step one :( Note that this step does NOT alter the deck, so the
+    deck is not returned."""
     count = deck[0]
     if count == A or count == B:
         count = 53 # either joker is 53 here
@@ -132,21 +127,20 @@ def fake_mod(num):
         return num
 
 
-def encrypt(plaintext, keystream):
-    """Encrypts the plaintext given a keystream (as a list)"""
+def encrypt_with_keystream(plaintext, keystream):
+    """Encrypts the plaintext given a keystream (as a list). Contrast with the
+    encrypt(plaintext, deck) function, which does the real work given a keyed
+    deck."""
     if len(plaintext) != len(keystream):
         return None # not sure how to handle this gracefully
     text = map(lambda x: ord(x) - 64, list(plaintext)) # convert to list of nums
-    text = [fake_mod((text[i] + keystream[i])) for i in range(len(text))]
+    text = [fake_mod(text[i] + keystream[i]) for i in range(len(text))]
     text = map(lambda x: chr(x + 64), text) # back to chars
     return "".join(text)
 
 
 def main():
-    key = range(1, DECK_SIZE+1) # initial state of the deck
-    deck = key
-
-    print "hey"
+    print "hey don't run this what jeez guys"
 
 
 if __name__ == "__main__":
