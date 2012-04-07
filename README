@@ -3,3 +3,19 @@ Pontifex
 
 Bruce Schneier's solitaire cipher. See http://www.schneier.com/solitaire.html
 (or read Cryptonomicon!) for more info.
+
+
+How Do I Use It?
+----------------
+
+Like this, basically:
+
+    from pont import encrypt
+
+    plaintext = "hey there mister, I sure do like your pantaloons"
+    ciphertext = encrypt(plaintext, deck)
+
+The deck argument is a list of integers, 1 through 54, representing a keyed
+deck of cards. 1 through 13 is clubs, 14 through 26 is diamonds, 27 through 39
+is hearts, and 40 through 52 is spades. The 'A' joker is 53 and the 'B' joker
+is 54.
