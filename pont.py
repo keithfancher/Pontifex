@@ -20,25 +20,21 @@ def insert_spaces(instring, every=5):
 
 
 def clean_string(instring):
-    """Removes all but alphanumeric characters"""
+    """Removes all but alphanumeric characters and makes uppercase. Now it's
+    ready for encryption!"""
     filtered = filter(lambda x: x.isalnum(), list(instring))
-    return "".join(filtered)
+    return "".join(filtered).upper()
 
 
 def split_into_fives(instring):
-    """Split given string into groups of five characters, separated by spaces
-    and capitalized"""
+    """Split given string into groups of five characters. Not separated by
+    spaces at this point, since we don't want spaces to be encrypted."""
     outstring = clean_string(instring)
-
     # add Xs so len is multiple of 5
     if len(outstring) % 5 != 0:
         num_x = 5 - (len(outstring) % 5)
         outstring = outstring + ("X" * num_x)
-
-    # add spaces
-    outstring = insert_spaces(outstring)
-
-    return outstring.upper() # upper case
+    return outstring
 
 
 def move_card_down(deck, card, n=1):
@@ -137,6 +133,17 @@ def encrypt_with_keystream(plaintext, keystream):
     text = [fake_mod(text[i] + keystream[i]) for i in range(len(text))]
     text = map(lambda x: chr(x + 64), text) # back to chars
     return "".join(text)
+
+
+def encrypt(plaintext, deck):
+    """Encrypts the plaintext given a keyed deck. The deck is a list of
+    integers from 1 to 54 representing the cards. 1 through 13 is clubs, 14
+    through 26 is diamonds, 27 through 39 is hearts, and 40 through 52 is
+    spades. The 'A' joker is 53 and the 'B' joker is 54."""
+    cleaned = split_into_fives(plaintext) # uppercase, mult of 5, no punct
+    keystream = generate_keystream(deck, len(cleaned))
+    ciphertext = encrypt_with_keystream(cleaned, keystream)
+    return insert_spaces(ciphertext) # space between groups of 5 chars
 
 
 def main():

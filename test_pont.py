@@ -14,6 +14,7 @@ from pont import keystream_step_4
 from pont import get_keystream_num
 from pont import generate_keystream
 from pont import encrypt_with_keystream
+from pont import encrypt
 from pont import A, B
 
 
@@ -106,6 +107,14 @@ class TestEncryptWithKeystream(unittest.TestCase):
         self.assertEqual(encrypt_with_keystream(plaintext, keystream), ciphertext)
 
 
+class TestEncrypt(unittest.TestCase):
+    def test_basic_shit(self):
+        plaintext = "AAAAAAAAAA"
+        ciphertext = "EXKYI ZSGEH"
+        deck = range(1, 55)
+        self.assertEqual(encrypt(plaintext, deck), ciphertext)
+
+
 class TestMoveCardDown(unittest.TestCase):
     # tuples in the form (indeck, outdeck, n)
     test_decks = [ ( [1, 2, 3, 4, 5], [2, 1, 3, 4, 5], 1),
@@ -120,8 +129,8 @@ class TestMoveCardDown(unittest.TestCase):
 
 class TestCleanString(unittest.TestCase):
     # in the form (instring, outstring)
-    test_strings = [("hello 1 `';!!!    man,", "hello1man"),
-                    ("\t\t!!!!!!    b 4,,;'][()+lls", "b4lls")]
+    test_strings = [("hello 1 `';!!!    man,", "HELLO1MAN"),
+                    ("\t\t!!!!!!    b 4,,;'][()+lls", "B4LLS")]
 
     def test_basic_shit(self):
         for instring, outstring in self.test_strings:
@@ -142,10 +151,10 @@ class TestInsertSpaces(unittest.TestCase):
 
 class TestSplitIntoFives(unittest.TestCase):
     # in the form (instring, outstring)
-    test_strings = [("hey there", "HEYTH EREXX"),
+    test_strings = [("hey there", "HEYTHEREXX"),
                     ("hey", "HEYXX"),
-                    ("do not use PC", "DONOT USEPC"),
-                    ("welcome home", "WELCO MEHOM EXXXX")]
+                    ("do not use PC", "DONOTUSEPC"),
+                    ("welcome home", "WELCOMEHOMEXXXX")]
 
     def test_basic_shit(self):
         for instring, outstring in self.test_strings:
