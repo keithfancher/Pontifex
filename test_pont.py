@@ -14,6 +14,7 @@ from pont import keystream_step_4
 from pont import get_keystream_num
 from pont import generate_keystream
 from pont import encrypt_with_keystream
+from pont import decrypt_with_keystream
 from pont import encrypt
 from pont import A, B
 
@@ -105,6 +106,18 @@ class TestEncryptWithKeystream(unittest.TestCase):
         plaintext = "DONOTUSEPC"
         ciphertext = "OSKJJJGTMW"
         self.assertEqual(encrypt_with_keystream(plaintext, keystream), ciphertext)
+
+
+class TestDecryptWithKeystream(unittest.TestCase):
+    def test_basic_shit(self):
+        keystream = [4, 49, 10, 24, 8, 51, 44, 6, 4, 33]
+        ciphertext = "EXKYIZSGEH"
+        plaintext = "AAAAAAAAAA"
+        self.assertEqual(decrypt_with_keystream(ciphertext, keystream), plaintext)
+        keystream = [11, 4, 23, 21, 16, 15, 14, 15, 23, 20]
+        ciphertext = "OSKJJJGTMW"
+        plaintext = "DONOTUSEPC"
+        self.assertEqual(decrypt_with_keystream(ciphertext, keystream), plaintext)
 
 
 class TestEncrypt(unittest.TestCase):

@@ -119,8 +119,10 @@ def fake_mod(num):
     """The solitaire algorithm uses a not-quite-mod mod function..."""
     if num > 26:
         return num - 26
-    else:
+    elif num > 0:
         return num
+    else:
+        return num + 26
 
 
 def encrypt_with_keystream(plaintext, keystream):
@@ -131,6 +133,16 @@ def encrypt_with_keystream(plaintext, keystream):
         return None # not sure how to handle this gracefully
     text = map(lambda x: ord(x) - 64, list(plaintext)) # convert to list of nums
     text = [fake_mod(text[i] + keystream[i]) for i in range(len(text))]
+    text = map(lambda x: chr(x + 64), text) # back to chars
+    return "".join(text)
+
+
+def decrypt_with_keystream(ciphertext, keystream):
+    """Decrypts ciphertext given a keystream (as a list)"""
+    if len(ciphertext) != len(keystream):
+        return None
+    text = map(lambda x: ord(x) - 64, list(ciphertext)) # convert to list of nums
+    text = [fake_mod(text[i] - keystream[i]) for i in range(len(text))]
     text = map(lambda x: chr(x + 64), text) # back to chars
     return "".join(text)
 
