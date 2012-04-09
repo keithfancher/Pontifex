@@ -37,6 +37,17 @@ def split_into_fives(instring):
     return outstring
 
 
+def chars_to_nums(string):
+    """Turns a string into a list of integers, 1 through 26"""
+    return map(lambda x: ord(x) - 64, list(string.upper()))
+
+
+def nums_to_chars(numbers):
+    """Turns a list of integers 1through 26 into a string"""
+    text = map(lambda x: chr(x + 64), numbers)
+    return "".join(text)
+
+
 def move_card_down(deck, card, n=1):
     """Moves the specifed card down n cards in the deck, looping around properly
     as specified by the algorithm"""
@@ -125,26 +136,29 @@ def fake_mod(num):
         return num % 26
 
 
+def key_deck_with_passphrase(phrase):
+    deck = range(1,55)
+    return deck
+
+
 def encrypt_with_keystream(plaintext, keystream):
     """Encrypts the plaintext given a keystream (as a list). Contrast with the
     encrypt(plaintext, deck) function, which does the real work given a keyed
     deck."""
     if len(plaintext) != len(keystream):
         return None # not sure how to handle this gracefully
-    text = map(lambda x: ord(x) - 64, list(plaintext)) # convert to list of nums
+    text = chars_to_nums(plaintext) # convert to list of nums
     text = [fake_mod(text[i] + keystream[i]) for i in range(len(text))]
-    text = map(lambda x: chr(x + 64), text) # back to chars
-    return "".join(text)
+    return nums_to_chars(text) # back to chars
 
 
 def decrypt_with_keystream(ciphertext, keystream):
     """Decrypts ciphertext given a keystream (as a list)"""
     if len(ciphertext) != len(keystream):
         return None
-    text = map(lambda x: ord(x) - 64, list(ciphertext)) # convert to list of nums
+    text = chars_to_nums(ciphertext) # convert to list of nums
     text = [fake_mod(text[i] - keystream[i]) for i in range(len(text))]
-    text = map(lambda x: chr(x + 64), text) # back to chars
-    return "".join(text)
+    return nums_to_chars(text) # back to chars
 
 
 def encrypt(plaintext, deck):
