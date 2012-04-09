@@ -6,6 +6,39 @@ import unittest
 from pont import *
 
 
+class TestWithSchneiersVectors(unittest.TestCase):
+    """These are the test vector's from Schneier's site. Tuples in the form
+    (plaintext, key, ciphertext)"""
+    test_vectors = [ ("AAAAAAAAAAAAAAA", "f", "XYIUQ BMHKK JBEGY"),
+                     ("AAAAAAAAAAAAAAA", "fo", "TUJYM BERLG XNDIW"),
+                     ("AAAAAAAAAAAAAAA", "FOO", "ITHZU JIWGR FARMW"),
+                     ("AAAAAAAAAAAAAAA", "a", "XODAL GSCUL IQNSC"),
+                     ("AAAAAAAAAAAAAAA", "aa", "OHGWM XXCAI MCIQP"),
+                     ("AAAAAAAAAAAAAAA", "aAa", "DCSQY HBQZN GDRUT"),
+                     ("AAAAAAAAAAAAAAA", "b", "XQEEM OITLZ VDSQS"),
+                     ("AAAAAAAAAAAAAAA", "bC", "QNGRK QIHCL GWSCE"),
+                     ("AAAAAAAAAAAAAAA", "BCD", "FMUBY BMAXH NQXCJ"),
+                     ("AAAAAAAAAAAAAAAAAAAAAAAAA", "cryptonomicon", "SUGSR SXSWQ RMXOH IPBFP XARYQ"),
+                     ("SOLITAIREX", "cryptonomicon", "KIRAK SFJAN") ]
+
+    def test_with_passphrase(self):
+        for plain, key, cipher in self.test_vectors:
+            deck = key_deck_with_passphrase(key)
+            self.assertEqual(encrypt(plain, deck), cipher)
+
+    def test_decrypt(self):
+        for plain, key, cipher in self.test_vectors:
+            deck = key_deck_with_passphrase(key)
+            self.assertEqual(decrypt(cipher, deck), insert_spaces(plain))
+
+    def test_no_passphrase(self):
+        plain = "AAAAAAAAAAAAAAA"
+        cipher = "EXKYI ZSGEH UNTIQ"
+        deck = range(1,55)
+        self.assertEqual(encrypt(plain, deck), cipher)
+        self.assertEqual(decrypt(cipher, deck), insert_spaces(plain))
+
+
 class TestEncryptDecrypt(unittest.TestCase):
     def test_basic_shit(self):
         """Encrypted text should decrypt properly and vice versa"""
