@@ -27,8 +27,17 @@ class TestEncryptDecrypt(unittest.TestCase):
         plaintext = "hey man, how's it hangin'?"
         cleaned_plain = split_into_fives(clean_string(plaintext))
         cipher = encrypt(plaintext, deck)
-        print cipher # fake mod function is to blame!
-        deck = range(1,55) # reset the damn deck
+        deck = range(1,55) # reset deck (damn you python mutability!)
+        self.assertEqual(decrypt(cipher, deck), insert_spaces(cleaned_plain))
+
+    def test_goin_cray_cray(self):
+        deck = range(1,55)
+        deck.reverse() # mix it up a bit, why not!
+        plaintext = "Let's really jazz this one up! Shit! Shit, man!"
+        cleaned_plain = split_into_fives(clean_string(plaintext))
+        cipher = encrypt(plaintext, deck)
+        deck = range(1,55)
+        deck.reverse()
         self.assertEqual(decrypt(cipher, deck), insert_spaces(cleaned_plain))
 
 
@@ -114,6 +123,10 @@ class TestEncryptWithKeystream(unittest.TestCase):
         keystream = [4, 49, 10, 24, 8, 51, 44, 6, 4, 33]
         plaintext = "AAAAAAAAAA"
         ciphertext = "EXKYIZSGEH"
+        self.assertEqual(encrypt_with_keystream(plaintext, keystream), ciphertext)
+        keystream = [8, 19, 7, 25, 20, 9, 8, 22, 32, 43, 5, 26, 17, 38, 48]
+        plaintext = "AAAAAAAAAAAAAAA"
+        ciphertext = "ITHZUJIWGRFARMW"
         self.assertEqual(encrypt_with_keystream(plaintext, keystream), ciphertext)
         keystream = [11, 4, 23, 21, 16, 15, 14, 15, 23, 20]
         plaintext = "DONOTUSEPC"
