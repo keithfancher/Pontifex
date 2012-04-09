@@ -16,7 +16,20 @@ from pont import generate_keystream
 from pont import encrypt_with_keystream
 from pont import decrypt_with_keystream
 from pont import encrypt
+from pont import decrypt
 from pont import A, B
+
+
+class TestEncryptDecrypt(unittest.TestCase):
+    def test_basic_shit(self):
+        """Encrypted text should decrypt properly and vice versa"""
+        deck = range(1,55)
+        plaintext = "hey man, how's it hangin'?"
+        cleaned_plain = split_into_fives(clean_string(plaintext))
+        cipher = encrypt(plaintext, deck)
+        print cipher # fake mod function is to blame!
+        deck = range(1,55) # reset the damn deck
+        self.assertEqual(decrypt(cipher, deck), insert_spaces(cleaned_plain))
 
 
 class TestKeyStreamStep1(unittest.TestCase):
@@ -126,6 +139,14 @@ class TestEncrypt(unittest.TestCase):
         ciphertext = "EXKYI ZSGEH"
         deck = range(1, 55)
         self.assertEqual(encrypt(plaintext, deck), ciphertext)
+
+
+class TestDecrypt(unittest.TestCase):
+    def test_basic_shit(self):
+        ciphertext = "EXKYI ZSGEH"
+        plaintext = "AAAAA AAAAA"
+        deck = range(1, 55)
+        self.assertEqual(decrypt(ciphertext, deck), plaintext)
 
 
 class TestMoveCardDown(unittest.TestCase):

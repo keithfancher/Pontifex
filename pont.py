@@ -117,12 +117,12 @@ def generate_keystream(deck, length):
 
 def fake_mod(num):
     """The solitaire algorithm uses a not-quite-mod mod function..."""
-    if num > 26:
-        return num - 26
-    elif num > 0:
+    if num > 0 and num <= 26:
         return num
+    elif num % 26 == 0:
+        return 26
     else:
-        return num + 26
+        return num % 26
 
 
 def encrypt_with_keystream(plaintext, keystream):
@@ -156,6 +156,14 @@ def encrypt(plaintext, deck):
     keystream = generate_keystream(deck, len(cleaned))
     ciphertext = encrypt_with_keystream(cleaned, keystream)
     return insert_spaces(ciphertext) # space between groups of 5 chars
+
+
+def decrypt(ciphertext, deck):
+    """Decrypts ciphertext given a keyed deck"""
+    cleaned = clean_string(ciphertext) # kill spaces
+    keystream = generate_keystream(deck, len(cleaned))
+    plaintext = decrypt_with_keystream(cleaned, keystream)
+    return insert_spaces(plaintext) # add spaces back
 
 
 def main():
