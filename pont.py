@@ -37,14 +37,24 @@ def split_into_fives(instring):
     return outstring
 
 
+def char_to_num(char):
+    """Turns a single character into an integer, 1 through 26"""
+    return ord(char.upper()) - 64
+
+
+def num_to_char(num):
+    """Turns an integer, 1 through 26, into an uppercase character"""
+    return chr(num + 64)
+
+
 def chars_to_nums(string):
     """Turns a string into a list of integers, 1 through 26"""
-    return map(lambda x: ord(x) - 64, list(string.upper()))
+    return map(lambda x: char_to_num(x), list(string))
 
 
 def nums_to_chars(numbers):
     """Turns a list of integers 1through 26 into a string"""
-    text = map(lambda x: chr(x + 64), numbers)
+    text = map(lambda x: num_to_char(x), numbers)
     return "".join(text)
 
 
@@ -137,7 +147,17 @@ def fake_mod(num):
 
 
 def key_deck_with_passphrase(phrase):
+    """Returns a deck keyed with the given passphrase"""
     deck = range(1,55)
+    clean = clean_string(phrase) # remove shit, make uppercase
+    for c in clean:
+        deck = keystream_step_1(deck)
+        deck = keystream_step_2(deck)
+        deck = keystream_step_3(deck)
+        deck = keystream_step_4(deck)
+        # the extra step, count cut with passphrase letter
+        count = char_to_num(c)
+        deck = deck[count:-1] + deck[0:count] + [deck[-1]]
     return deck
 
 

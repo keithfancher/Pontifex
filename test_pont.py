@@ -3,21 +3,7 @@
 
 import unittest
 
-from pont import insert_spaces
-from pont import clean_string
-from pont import split_into_fives
-from pont import move_card_down
-from pont import keystream_step_1
-from pont import keystream_step_2
-from pont import keystream_step_3
-from pont import keystream_step_4
-from pont import get_keystream_num
-from pont import generate_keystream
-from pont import encrypt_with_keystream
-from pont import decrypt_with_keystream
-from pont import encrypt
-from pont import decrypt
-from pont import A, B
+from pont import *
 
 
 class TestEncryptDecrypt(unittest.TestCase):
@@ -39,6 +25,21 @@ class TestEncryptDecrypt(unittest.TestCase):
         deck = range(1,55)
         deck.reverse()
         self.assertEqual(decrypt(cipher, deck), insert_spaces(cleaned_plain))
+
+
+class TestEncryptWithPassphrase(unittest.TestCase):
+    def test_keystream_gen(self):
+        """Generate proper keystream given a passphrase"""
+        key = key_deck_with_passphrase("FOO")
+        keystream = [8, 19, 7, 25, 20, 9, 8, 22, 32, 43, 5, 26, 17, 38, 48]
+        self.assertEqual(generate_keystream(key, 15), keystream)
+
+    def test_full_encrypt(self):
+        """Plaintext encrypted properly with passphrase"""
+        key = key_deck_with_passphrase("CRYPTONOMICON")
+        plaintext = "SOLITAIRE"
+        ciphertext = "KIRAK SFJAN"
+        self.assertEqual(encrypt(plaintext, key), ciphertext)
 
 
 class TestKeyStreamStep1(unittest.TestCase):
